@@ -5,6 +5,7 @@ import "encoding/xml"
 type Shooter struct {
 	XMLName                             xml.Name           `xml:"shooter"`
 	Identification                      int                `xml:"identification,attr"`
+	BirthDateIso                        DisagDateIso       `xml:"birthdateiso,attr"`
 	IdShooters                          int                `xml:"idShooters,attr"`
 	FirstName                           string             `xml:"firstname,attr"`
 	LastName                            string             `xml:"lastname,attr"`
