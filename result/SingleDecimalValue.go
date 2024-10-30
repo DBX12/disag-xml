@@ -15,16 +15,6 @@ func (d *SingleDecimalValue) String() string {
 	return regexp.MustCompile(`\d+\.\d`).FindString(fmt.Sprintf("%f", *d))
 }
 
-func (d *SingleDecimalValue) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) error {
-	var str string
-
-	err := dec.DecodeElement(&str, &start)
-	if err != nil {
-		return err
-	}
-	return d.parseString(str)
-}
-
 func (d *SingleDecimalValue) UnmarshalXMLAttr(attr xml.Attr) error {
 	return d.parseString(attr.Value)
 }
