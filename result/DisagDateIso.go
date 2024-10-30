@@ -17,22 +17,6 @@ func (d *DisagDateIso) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
-func (d *DisagDateIso) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) error {
-	var str string
-
-	err := dec.DecodeElement(&str, &start)
-	if err != nil {
-		return err
-	}
-
-	v, err := d.parseString(str)
-	if err != nil {
-		return err
-	}
-	*d = DisagDateIso(*v)
-	return nil
-}
-
 func (d *DisagDateIso) parseString(str string) (*time.Time, error) {
 	if str == "" {
 		return &time.Time{}, nil
