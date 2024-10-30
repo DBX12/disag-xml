@@ -27,6 +27,11 @@ type Series struct {
 	Shots []Shot `xml:"shot"`
 }
 
+// SumFullRings sums the full rings of a selection of shots of the Series
+// including start and end. The values are zero-based.
+// Will return an error if start is less than zero, end is equal or greater than
+// the number of shots in the Series or start is greater than end.
+// See also SumDecimalResult
 func (s Series) SumFullRings(start int, end int) (int, error) {
 	err := s.validateStartAndEnd(start, end)
 	if err != nil {
@@ -39,6 +44,12 @@ func (s Series) SumFullRings(start int, end int) (int, error) {
 	}
 	return sum, nil
 }
+
+// SumDecimalResult sums the decimal result of a selection of shots of the Series
+// including start and end. The values are zero-based.
+// Will return an error if start is less than zero, end is equal or greater than
+// the number of shots in the Series or start is greater than end.
+// See also SumFullRings
 func (s Series) SumDecimalResult(start int, end int) (SingleDecimalValue, error) {
 	err := s.validateStartAndEnd(start, end)
 	if err != nil {
