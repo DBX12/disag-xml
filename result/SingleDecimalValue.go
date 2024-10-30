@@ -16,15 +16,19 @@ func (d *SingleDecimalValue) String() string {
 }
 
 func (d *SingleDecimalValue) UnmarshalXMLAttr(attr xml.Attr) error {
-	return d.parseString(attr.Value)
-}
-
-func (d *SingleDecimalValue) parseString(str string) error {
-	str = strings.Replace(str, ",", ".", 1)
-	flt, err := strconv.ParseFloat(str, 32)
+	flt, err := d.parseString(attr.Value)
 	if err != nil {
 		return err
 	}
 	*d = SingleDecimalValue(flt)
 	return nil
+}
+
+func (d *SingleDecimalValue) parseString(str string) (float32, error) {
+	str = strings.Replace(str, ",", ".", 1)
+	flt, err := strconv.ParseFloat(str, 32)
+	if err != nil {
+		return 0, err
+	}
+	return float32(flt), nil
 }
