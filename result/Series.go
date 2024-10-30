@@ -1,6 +1,9 @@
 package result
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+)
 
 type Series struct {
 	XMLName xml.Name `xml:"series"`
@@ -24,18 +27,40 @@ type Series struct {
 	Shots []Shot `xml:"shot"`
 }
 
-func (s Series) SumFullRings(start int, end int) int {
+func (s Series) SumFullRings(start int, end int) (int, error) {
+	err := s.validateStartAndEnd(start, end)
+	if err != nil {
+		return 0, err
+	}
+
 	sum := 0
-	for i := start; i < end; i++ {
+	for i := start; i <= end; i++ {
 		sum += s.Shots[i].FullRings
 	}
-	return sum
+	return sum, nil
 }
+func (s Series) SumDecimalResult(start int, end int) (SingleDecimalValue, error) {
+	err := s.validateStartAndEnd(start, end)
+	if err != nil {
+		return 0, err
+	}
 
-func (s Series) SumDecimalResult(start int, end int) SingleDecimalValue {
 	sum := SingleDecimalValue(0)
-	for i := 0; i < end; i++ {
+	for i := start; i <= end; i++ {
 		sum += s.Shots[i].DecimalResult
 	}
-	return sum
+	return sum, nil
+}
+
+func (s Series) validateStartAndEnd(start, end int) error {
+	if start < 0 {
+		return fmt.Errorf("invalid parameter: start must be greater than zero")
+	}
+	if start > end {
+		return fmt.Errorf("invalid parameter: start must be less than end")
+	}
+	if end >= len(s.Shots) {
+		return fmt.Errorf("invalid parameter: series has less shots than requested with end")
+	}
+	return nil
 }
