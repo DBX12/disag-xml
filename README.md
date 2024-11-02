@@ -48,3 +48,7 @@ func readResultXml(filePath string) (*result.Result, error) {
 	return r, nil
 }
 ```
+
+## License
+
+This library is available under the terms of the GPLv3 as outlined in [LICENSE](LICENSE).
